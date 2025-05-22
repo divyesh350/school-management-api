@@ -1,12 +1,12 @@
 const mysql = require('mysql2');
-
+require('dotenv').config();
 // Option 1: Disable SSL verification (for development only)
 const connection = mysql.createConnection({
-  host: 'bgherstyhxrbyaoaghfd-mysql.services.clever-cloud.com',
-  port: 3306,
-  user: 'uwg2s8liuilciqxe',
-  password: 'iPCvmhUwrHWnh0mgzGIn',
-  database: 'bgherstyhxrbyaoaghfd',
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 
