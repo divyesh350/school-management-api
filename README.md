@@ -26,11 +26,13 @@ This is a RESTful API for managing school information, built with Node.js, Expre
 The application uses the following environment variables defined in the `.env` file:
 
 ```
-DB_HOST=localhost     # MySQL database host
-DB_USER=root          # MySQL database username
-DB_PASSWORD=divyesh   # MySQL database password
-DB_NAME=school_db     # MySQL database name
-PORT=5000             # Port on which the server runs
+DB_HOST=bgherstyhxrbyaoaghfd-mysql.services.clever-cloud.com  # MySQL database host
+DB_USER=uwg2s8liuilciqxe                                      # MySQL database username
+DB_PASSWORD=iPCvmhUwrHWnh0mgzGIn                              # MySQL database password
+DB_NAME=bgherstyhxrbyaoaghfd                                  # MySQL database name
+DB_PORT=3306                                                  # MySQL database port
+PORT=5000                                                     # Port on which the server runs
+CONNECTION=mysql://user:password@host:port/database           # Full database connection string
 ```
 
 ## Database Setup
