@@ -4,26 +4,32 @@ const calculateDistance = require('../utils/distance.util');
 exports.addSchool = (req, res) => {
   const { name, address, latitude, longitude } = req.body;
 
-  if (!name || !address || isNaN(latitude) || isNaN(longitude)) {
-    return res.status(400).json({ message: 'Invalid input data' });
+  try {
+    if (!name || !address || isNaN(latitude) || isNaN(longitude)) {
+      return res.status(400).json({ message: 'Invalid input data' });
+    }
+  
+    const query = 'INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)';
+    db.query(query, [name, address, latitude, longitude], (err, result) => {
+      if (err) return res.status(500).json({ message: 'Database error', error: err });
+      res.status(201).json({ message: 'School added successfully', schoolId: result.insertId });
+    }); 
+  } catch (error) {
+    console.error('Error adding school:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
-
-  const query = 'INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)';
-  db.query(query, [name, address, latitude, longitude], (err, result) => {
-    if (err) return res.status(500).json({ message: 'Database error', error: err });
-    res.status(201).json({ message: 'School added successfully', schoolId: result.insertId });
-  });
 };
 
 exports.listSchools = (req, res) => {
   const { latitude, longitude } = req.query;
 
-  if (isNaN(latitude) || isNaN(longitude)) {
-    return res.status(400).json({ message: 'Invalid coordinates' });
-  }
-
-  db.query('SELECT * FROM schools', (err, results) => {
-    if (err) return res.status(500).json({ message: 'Database error', error: err });
+  try {
+    if (isNaN(latitude) || isNaN(longitude)) {
+      return res.status(400).json({ message: 'Invalid coordinates' });
+    }
+  
+    db.query('SELECT * FROM schools', (err, results) => {
+      if (err) return res.status(500).json({ message: 'Database error', error: err });
 
     const userLat = parseFloat(latitude);
     const userLon = parseFloat(longitude);
@@ -37,4 +43,8 @@ exports.listSchools = (req, res) => {
 
     res.json(sorted);
   });
+} catch (error) {
+  console.error('Error listing schools:', error);
+  res.status(500).json({ message: 'Internal server error' });
+}
 };
